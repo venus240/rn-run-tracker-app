@@ -1,35 +1,64 @@
-import { Stack } from "expo-router";
 import {
-  useFonts,
   Kanit_400Regular,
   Kanit_700Bold,
+  useFonts,
 } from "@expo-google-fonts/kanit";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import {stack} from "expo-router";
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Kanit_400Bold: Kanit_400Regular,
+    Kanit_700Bold,
+  });
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#888ad6",
+          backgroundColor: "#1893da",
         },
-        headerTintColor: "#fff",
         headerTitleStyle: {
           fontFamily: "Kanit_700Bold",
-          fontSize: 18,
+          fontSize: 20,
           color: "#fff",
         },
-        headerTintColor: "#fff",
-        headerBackButtonDisplayMode: "minimal",
       }}
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="run" options={{ title: "Run Tracker" }} />
-      <Stack.Screen name="add" options={{ title: "Add Run" }} />
-      <Stack.Screen name="[id]" options={{ title: "Run Detail" }} />
+      <Stack.Screen
+        name="run"
+        options={{
+          title: "Run Tracker",
+        }}
+      />
+      <Stack.Screen
+        name="login"
+        options={{
+          title: "เข้าสู่ระบบ",
+        }}
+      />
+      <Stack.Screen
+        name="add"
+        options={{
+          title: "เพิ่มรายการวิ่ง",
+        }}
+      />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          title: "รายละเอียดรายการวิ่ง",
+        }}
+      />
     </Stack>
-   )
-        },
-};
+  );
+}
